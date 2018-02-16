@@ -1,0 +1,148 @@
+<html>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+
+    <h1>AES encrypt/decrypt online using CryptoJS</h1>
+
+ 
+ <br>text:<input id='text' type='text'/>
+
+  <br>password:<input id='pass' type='text'/>
+
+  
+    <br><button onclick="encrypt()">encrypt</button>
+
+  
+  <br>result:<br><span id='result'></span>
+
+    
+<br>decoded:<br><span id="decrypted"></span>
+
+  
+  <br><button onclick="decrypt()">decrypt</button>
+
+ 
+   
+
+
+
+
+
+<style type="text/css"> 
+     #filecontents { 
+          border:double; 
+       overflow-y:scroll; 
+       height:400px; 
+     } 
+</style>
+
+
+<body> 
+     Please Select text file of which contents are to be read: 
+      <input type="file" id="txtfiletoread" />
+    <div>The File Contents are as below:</div> 
+     <div id="filecontents">
+    </div>
+<p id="status"></p>
+</body>
+
+
+
+
+<script>
+        function encrypt(){
+            
+ 
+        var encrypted = CryptoJS.AES.encrypt(document.getElementById("text").value, document.getElementById("pass").value); 
+  
+            document.getElementById("result").innerHTML = encrypted;
+      
+
+  document.getElementById("decrypted").innerHTML = '';
+   
+
+
+     }        
+        
+
+        function decrypt(){
+         
+var decrypted = CryptoJS.AES.decrypt(document.getElementById("text").value, document.getElementById("pass").value).toString(CryptoJS.enc.Utf8);
+
+            document.getElementById("decrypted").innerHTML = decrypted;
+  
+          document.getElementById("result").innerHTML = '';
+        }  
+      
+        
+        </script>
+
+
+
+<script>
+window.onload = function () { 
+ //Check the support for the File API support 
+ if (window.File && window.FileReader && window.FileList && window.Blob) {
+    var fileSelected = document.getElementById('txtfiletoread');
+    fileSelected.addEventListener('change', function (e) { 
+         //Set the extension for the file 
+         var fileExtension = /text.*/; 
+         //Get the file object 
+         var fileTobeRead = fileSelected.files[0];
+        //Check of the extension match 
+         if (fileTobeRead.type.match(fileExtension)) { 
+             //Initialize the FileReader object to read the 2file 
+             var fileReader = new FileReader(); 
+             fileReader.onload = function (e) { 
+                 var fileContents = document.getElementById('filecontents'); 
+                 fileContents.innerText = fileReader.result; 
+		var content=fileReader.result;
+		document.getElementById('text').value=fileReader.result;
+		console.log(content);
+		p1 = /\bbank\b|\bcredit\b|\bdebit\b|\bdeposit\b|\bwithdrawal\b|\bpassbook\b/i;
+		p2 = /\baddress\b|\bemail\b|\baadhar\b|\bpan\b|\bpassword\b|\bcash\b/i;
+		var res=p1.test(content);
+		var res1=p2.test(content);
+	
+
+	if(res==true){
+
+document.getElementById("status").innerHTML = "high";
+}
+else if(res1==true && res==false){
+document.getElementById("status").innerHTML = "medium";
+}
+else
+{
+document.getElementById("status").innerHTML = "low";
+}
+		
+             } 
+             fileReader.readAsText(fileTobeRead); 
+         } 
+         else { 
+             alert("Please select text file"); 
+         }
+ 
+    }, false);
+} 
+ else { 
+     alert("Files are not supported"); 
+ } 
+ }
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</html>
